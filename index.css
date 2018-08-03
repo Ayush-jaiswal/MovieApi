@@ -1,0 +1,17 @@
+.jumbotron{
+	background-image: url('sources/bgi.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	color: white;
+
+}
+.textbox{
+	margin-bottom: 10px;
+}
+#id{
+	margin-right: 25px;
+}
+.card{
+	width: 35%;
+	margin: 10px;
+}
