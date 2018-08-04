@@ -16,6 +16,13 @@ $("#submit").click(function(){
     }
 
  });
+
+$("#resetButton").click(function(){
+    $("#idTextBox").val("");
+    $("#titleTextBox").val("");
+    $("#yearTextBox").val("");
+ 
+});
          
 
     
@@ -57,26 +64,55 @@ let getAllData = (a,b,c) => {
         success: (data) => { // in case of success response
             
             console.log(data);
-            // let a=data["Poster"];
-            // $(".image1").attr("src",a);
-            
-            
-             let searchReult = data["Search"]
+            if(data.Response==="False")
+            {
+                alert(data.Error);
+            }
 
-             for(movie of searchReult){
+        else{
 
-           
-            let card=   `<div class="card col-8 col-sm-8 col-lg-4">
-                            <img class="card-img-top image1" src="${movie.Poster}" alt="Card image cap">
+                if(data["Search"]===undefined)
+            {
+                let image=(data.Poster==="N/A")?"sources/optional.jpg":data.Poster;
+                let card=   `<div class="card col-8 col-sm-8 col-lg-4">
+                            <img class="card-img-top image1" src="${image}" alt="Card image cap">
                                 <div class="card-body">
-                                        <h5 class="card-title">${movie.Title}</h5>
-                                        <p class="card-text">Type is ${movie.Type} and Year is ${movie.Year}</p>
+                                        <h5 class="card-title">${data.Title}</h5>
+                                        <p class="card-text">Type is ${data.Type} and Year is ${data.Year}</p>
                                         
                                 </div>
                         </div> `
 
                     $("#cardContainer").append(card);
             }
+
+            else{
+
+                let searchReult=data["Search"];
+                for(movie of searchReult){
+                
+
+                let image=(movie.Poster==="N/A")?"sources/optional.jpg":movie.Poster;
+                let card=   `<div class="card col-8 col-sm-8 col-lg-4">
+                            <img class="card-img-top image1" src="${image}" alt="Card image cap">
+                                <div class="card-body">
+                                        <h5 class="card-title">${movie.Title}</h5>
+                                        <p class="card-text">Type: ${movie.Type}<br>Year: ${movie.Year}<br>ImdbId: ${movie.imdbID}</p>
+                                        
+                                </div>
+                        </div> `
+
+                    $("#cardContainer").append(card);
+                    }
+            }
+        }
+            
+            
+            
+            
+             
+
+             
 
          
             
@@ -101,7 +137,7 @@ let getAllData = (a,b,c) => {
 
         // },
 
-        // timeout:3000 // this is in milli seconds
+         timeout:5000 // this is in milli seconds
 
     }); // end of AJAX request
 
